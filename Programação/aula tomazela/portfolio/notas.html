@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Notas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            margin: 20px 0;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #7f8c8d;
+            margin: 15px 0;
+            font-size: 1.4em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #resultado {
+            margin-top: 30px;
+        }
+
+        .aluno-notas {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        #aprovados p {
+            color: #27ae60;
+            padding: 10px;
+            background-color: #eafaf1;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+
+        #reprovados p {
+            color: #c0392b;
+            padding: 10px;
+            background-color: #fdedec;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            input[type="number"] {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+      <h1>Sistema de Cálculo de Médias</h1>
+  
+      <div id="entrada">
+        <div class="form-group">
+          <label for="mediaAprovacao">Média de aprovação:</label>
+          <input type="number" id="mediaAprovacao" step="0.1" min="0" max="10">
+        </div>
+  
+        <div class="form-group">
+          <label for="quantidadeAlunos">Quantidade de alunos:</label>
+          <input type="number" id="quantidadeAlunos" min="1">
+        </div>
+  
+        <div class="form-group">
+          <label for="quantidadeNotas">Quantidade de notas por aluno:</label>
+          <input type="number" id="quantidadeNotas" min="1">
+        </div>
+  
+        <button onclick="iniciarEntradaNotas()">Iniciar entrada de notas</button>
+      </div>
+  
+      <div id="entradaNotas" style="display: none;">
+        <h2>Digite as notas</h2>
+        <div id="formularioNotas"></div>
+        <button onclick="salvarNotasEAvancar()">Próximo Aluno</button>
+      </div>
+  
+      <div id="resultado" style="display: none;">
+        <h2>Resultados</h2>
+        <h3>Notas dos alunos:</h3>
+        <div id="todasNotas" class="aluno-notas"></div>
+  
+        <h3>Alunos aprovados:</h3>
+        <div id="aprovados"></div>
+  
+        <h3>Alunos reprovados:</h3>
+        <div id="reprovados"></div>
+      </div>
+    </div>
+  
+    <script>
+      let quantidadeNotas;
+      let mediaAprovacao;
+      let quantidadeAlunos;
+      let notas = [];
+      let alunoAtual = 0;
+  
+      function iniciarEntradaNotas() {
+        mediaAprovacao = parseFloat(document.getElementById('mediaAprovacao').value);
+        quantidadeAlunos = parseInt(document.getElementById('quantidadeAlunos').value);
+        quantidadeNotas = parseInt(document.getElementById('quantidadeNotas').value);
+  
+        if (isNaN(quantidadeNotas) || quantidadeNotas < 1) {
+          alert('Por favor, insira um valor válido para a quantidade de notas por aluno.');
+          return;
+        }
+  
+        notas = Array(quantidadeAlunos).fill().map(() => Array(quantidadeNotas).fill(0));
+        alunoAtual = 0;
+        mostrarFormularioNotas(alunoAtual);
+      }
+  
+      function mostrarFormularioNotas(aluno) {
+        const formularioNotas = document.getElementById('formularioNotas');
+        formularioNotas.innerHTML = '';
+  
+        const divAluno = document.createElement('div');
+        divAluno.classList.add('form-group');
+  
+        const labelAluno = document.createElement('label');
+        labelAluno.textContent = `Aluno ${aluno + 1}:`;
+        divAluno.appendChild(labelAluno);
+  
+        for (let j = 1; j <= quantidadeNotas; j++) {
+          const divNota = document.createElement('div');
+          divNota.classList.add('form-group');
+  
+          const labelNota = document.createElement('label');
+          labelNota.textContent = `Nota ${j}:`;
+  
+          const inputNota = document.createElement('input');
+          inputNota.type = 'number';
+          inputNota.step = '0.1';
+          inputNota.min = '0';
+          inputNota.max = '10';
+          inputNota.required = true;
+          inputNota.dataset.notaIndex = j - 1;
+  
+          divNota.appendChild(labelNota);
+          divNota.appendChild(inputNota);
+          divAluno.appendChild(divNota);
+        }
+  
+        formularioNotas.appendChild(divAluno);
+        document.getElementById('entradaNotas').style.display = 'block';
+        document.getElementById('entrada').style.display = 'none';
+      }
+  
+      function salvarNotasEAvancar() {
+        const inputsNota = document.querySelectorAll('#formularioNotas input[type="number"]');
+  
+        for (let i = 0; i < inputsNota.length; i++) {
+          const nota = parseFloat(inputsNota[i].value);
+          if (isNaN(nota) || nota < 0 || nota > 10) {
+            alert('Por favor, insira notas válidas (entre 0 e 10).');
+            return;
+          }
+          notas[alunoAtual][inputsNota[i].dataset.notaIndex] = nota;
+        }
+  
+        alunoAtual++;
+  
+        if (alunoAtual < quantidadeAlunos) {
+          mostrarFormularioNotas(alunoAtual);
+        } else {
+          calcularMedias();
+        }
+      }
+  
+      function calcularMedias() {
+        const todasNotas = document.getElementById('todasNotas');
+        todasNotas.innerHTML = '';
+  
+        const aprovados = document.getElementById('aprovados');
+        aprovados.innerHTML = '';
+  
+        const reprovados = document.getElementById('reprovados');
+        reprovados.innerHTML = '';
+  
+        for (let i = 0; i < notas.length; i++) {
+          const divAluno = document.createElement('div');
+          divAluno.classList.add('aluno-notas');
+  
+          const mediaAluno = notas[i].reduce((total, nota) => total + nota, 0) / quantidadeNotas;
+          const divMedia = document.createElement('p');
+          divMedia.textContent = `Aluno ${i + 1}: Média = ${mediaAluno.toFixed(2)}`;
+          divAluno.appendChild(divMedia);
+  
+          const divNotas = document.createElement('p');
+          divNotas.textContent = `Notas: ${notas[i].join(', ')}`;
+          divAluno.appendChild(divNotas);
+  
+          todasNotas.appendChild(divAluno);
+  
+          if (mediaAluno >= mediaAprovacao) {
+            const aprovado = document.createElement('p');
+            aprovado.textContent = `Aluno ${i + 1}: ${mediaAluno.toFixed(2)}`;
+            aprovados.appendChild(aprovado);
+          } else {
+            const reprovado = document.createElement('p');
+            reprovado.textContent = `Aluno ${i + 1}: ${mediaAluno.toFixed(2)}`;
+            reprovados.appendChild(reprovado);
+          }
+        }
+  
+        document.getElementById('entradaNotas').style.display = 'none';
+        document.getElementById('resultado').style.display = 'block';
+      }
+    </script>
+  </body>
+</html>

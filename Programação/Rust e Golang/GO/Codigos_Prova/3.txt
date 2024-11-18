@@ -1,0 +1,9 @@
+tbl vdd
+c ^ d
+
+v / v : v
+v / f : f
+f / v : f
+f / f : f
+
+

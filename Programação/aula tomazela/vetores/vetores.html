@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Separador de Números Pares e Ímpares</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .container {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        input {
+            padding: 8px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Separador de Números Pares e Ímpares</h1>
+        
+        <div class="input-group">
+            <input type="number" id="numero" placeholder="Digite um número" step="1">
+            <button onclick="adicionarNumero()">Adicionar Número</button>
+            <button onclick="separarNumeros()">Separar Pares e Ímpares</button>
+            <button onclick="limparTudo()">Limpar Tudo</button>
+        </div>
+
+        <div class="result">
+            <h3>Números inseridos:</h3>
+            <p id="numerosInseridos"></p>
+        </div>
+
+        <div class="result">
+            <h3>Números Pares:</h3>
+            <p id="numerosPares"></p>
+        </div>
+
+        <div class="result">
+            <h3>Números Ímpares:</h3>
+            <p id="numerosImpares"></p>
+        </div>
+    </div>
+
+    <script>
+        let numeros = [];
+        let vetorPar = [];
+        let vetorImpar = [];
+    
+        function adicionarNumero() {
+            const input = document.getElementById('numero');
+            const numero = input.value;
+            
+            if (numero && Number.isInteger(Number(numero))) {
+                numeros.push(parseInt(numero));
+                atualizarNumerosInseridos();
+                input.value = '';
+            } else {
+                alert('Por favor, insira apenas números válidos!');
+                input.value = '';
+            }
+        }
+    
+        function separarNumeros() {
+            vetorPar = [];
+            vetorImpar = [];
+    
+            for (const numero of numeros) {
+                if (numero % 2 === 0) {
+                    vetorPar.push(numero);
+                } else {
+                    vetorImpar.push(numero);
+                }
+            }
+    
+            document.getElementById('numerosPares').textContent = vetorPar.join(', ');
+            document.getElementById('numerosImpares').textContent = vetorImpar.join(', ');
+        }
+    
+        function atualizarNumerosInseridos() {
+            document.getElementById('numerosInseridos').textContent = numeros.join(', ');
+        }
+    
+        function limparTudo() {
+            numeros = [];
+            vetorPar = [];
+            vetorImpar = [];
+            document.getElementById('numerosInseridos').textContent = '';
+            document.getElementById('numerosPares').textContent = '';
+            document.getElementById('numerosImpares').textContent = '';
+            document.getElementById('numero').value = '';
+        }
+    </script>
+</body>
+</html>

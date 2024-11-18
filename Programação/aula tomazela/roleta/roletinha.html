@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roleta da Sorte</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url(tigrinho.jpg);
+            background-repeat: no-repeat;
+            background-size: 2000px 1000px;
+            background-position: top center;
+        }
+
+        p{
+            font-size: 70px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 60px;
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #ee1f1f;
+            color: #000000;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #555;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+
+        .result.success {
+            color: green;
+        }
+
+        .result.failure {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Roleta da Sorte</h1>
+    <div class="container">
+        <button class="button" onclick="spin()">Girar</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function spin() {
+            var randomNumber = Math.floor(Math.random() * 6) + 1;
+            var guess = parseInt(prompt("Digite um número de 1 a 6:"));
+
+            if (isNaN(guess) || guess < 1 || guess > 6) {
+                document.getElementById("result").innerHTML = "<p>Por favor, digite um número válido de 1 a 6.</p>";
+            } else {
+                if (guess === randomNumber) {
+                    document.getElementById("result").innerHTML = "<p>Parabéns! Você acertou!</p>";
+                } else {
+                    document.getElementById("result").innerHTML = "<p>Foi instalado um vírus que se iniciará em 7 dias.</p>";
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

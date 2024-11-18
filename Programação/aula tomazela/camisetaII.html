@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+    <title>Camiseta da Classe</title>
+    <style>
+       body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #282c34;
+            color: #61dafb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .code {
+            background-color: #282c34;
+            color: #61dafb;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .highlight {
+            color: #ffffff;
+        }
+
+        .blue {
+            color: #1d71ca;
+        }
+
+        .white {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="highlight">Análise e Desenvolvimento de Sistemas</h1>
+    <p>
+        JavaScript é <span class="highlight">legal</span>
+        , mas <span class="highlight">Java aqui não</span>.
+    </p>
+    <p class="blue">Faculdade Claretiano</p>
+    <p class="white">Python é modinha</p>
+    <footer>
+        <p>Professor <span class="highlight">Tomazella é o cara</span></p>
+    </footer>
+    
+    <script>
+    
+    console.log('Nerdzinhos');
+    console.log('Java aqui não');
+    console.log('Tomazella é o cara');
+    console.log('Python é modinha');
+    console.log('Bolo de Chocolate');
+
+    function displayCourseInfo() {
+        const course = "Análise e Desenvolvimento de Sistemas";
+        const institution = "Faculdade Claretiano";
+        console.log(course);
+        console.log(institution);
+    }
+
+    function favoriteLanguages() {
+        const languages = ["JavaScript", "Python", "C#", "Java"];
+        languages.forEach((lang) => {
+            if (lang === "Java") {
+                console.log("Java aqui não");
+            } else {
+                console.log(`${lang} é legal`);
+            }
+        });
+    }
+
+    function praiseProfessor() {
+        const professor = "Tomazella";
+        console.log(`${professor} é o cara`);
+    }
+
+    displayCourseInfo();
+    favoriteLanguages();
+    praiseProfessor();
+
+    </script>
+</body>
+</html>
