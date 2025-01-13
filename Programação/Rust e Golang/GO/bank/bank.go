@@ -3,6 +3,7 @@ package main
 import "fmt"
 
 func main() {
+	var accountBalance float64 = 1000
 
 	fmt.Println("Welcome to GoBank!")
 	fmt.Println("What do you want to do?")
@@ -12,9 +13,25 @@ func main() {
 	fmt.Println("4. Exit App")
 
 	var choice int
-	fmt.Print("Your Choice:")
+	fmt.Print("Select Your Choice: ")
 	fmt.Scan(&choice)
 
-	fmt.Println("Your Choice:", choice)
+	if choice == 1 {
+		fmt.Println("Your Balance is: $", accountBalance)
+	} else if choice == 2 {
+		fmt.Print("Your Deposit is: ")
+		var depositAmount float64
+		fmt.Scan(&depositAmount)
+		accountBalance += depositAmount
+		fmt.Println("Balance Updated! New Amount: ", accountBalance)
+	} else if choice == 3 {
+		fmt.Print("Withdrawal Amount: ")
+		var withdrawalAmount float64
+		fmt.Scan(&withdrawalAmount)
+		accountBalance -= withdrawalAmount
+		fmt.Println("Balance Updated! New Amount: ", accountBalance)
+	} else {
+		fmt.Println("Goodbye!")
+	}
 
 }
