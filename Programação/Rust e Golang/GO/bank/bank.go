@@ -12,9 +12,9 @@ func main() {
 	fmt.Println("4. Exit App")
 
 	var choice int
-
 	fmt.Print("Your Choice:")
 	fmt.Scan(&choice)
+
 	fmt.Println("Your Choice:", choice)
 
 }
