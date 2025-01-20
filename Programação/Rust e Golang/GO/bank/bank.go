@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"exemple.com/bank/fileops"
+	"fmt"
 )
 
 const accountBalanceFile = "balance.txt"
