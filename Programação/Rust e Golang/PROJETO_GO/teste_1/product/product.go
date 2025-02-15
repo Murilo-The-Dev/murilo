@@ -57,8 +57,8 @@ func (product Product) Display() {
 
     localTime := product.createdAt.In(loc)
 
-    fmt.Printf("Seu produto chamado %v tem as seguintes características:\n", product.pName)
-    fmt.Printf("----------------------------------------")
+    fmt.Printf("\n\nSeu produto chamado %v tem as seguintes características:\n", product.pName)
+    fmt.Printf("----------------------------------------\n")
     fmt.Printf("ID: %d\n", product.pId)
     fmt.Printf("Quantidade em estoque: %d\n", product.pQuantity)
     fmt.Printf("Preço: R$ %.2f\n", product.pPrice)

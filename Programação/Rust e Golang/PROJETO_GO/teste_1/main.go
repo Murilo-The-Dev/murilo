@@ -69,6 +69,15 @@ func main() {
 		return
 	}
 
-	fmt.Printf("\nProduto cadastrado com sucesso!\n")
 	product.Display()
+
+	err = product.SaveToJSON()
+	if err != nil {
+		fmt.Println("Erro ao salvar produto:", err)
+		return
+	}
+
+	fmt.Printf("\nProduto cadastrado e salvo com sucesso!\n")
 }
+	
+
