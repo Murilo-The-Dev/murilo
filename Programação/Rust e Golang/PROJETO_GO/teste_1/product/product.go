@@ -7,15 +7,15 @@ import (
 )
 
 type Product struct {
-	pName        string
-	pId          int
-	pQuantity    int
-	pPrice       float64
-	pCategory    string
-	pDescription string
-	createdAt    time.Time
-	pSupplier    string
-	pLocation    string
+	PName        string    `json:"pName"`
+	PId          int       `json:"pId"`
+	PQuantity    int       `json:"pQuantity"`
+	PPrice       float64   `json:"pPrice"`
+	PCategory    string    `json:"pCategory"`
+	PDescription string    `json:"pDescription"`
+	CreatedAt    time.Time `json:"createdAt"`
+	PSupplier    string    `json:"pSupplier"`
+	PLocation    string    `json:"pLocation"`
 }
 
 func New(name string, id int, quantity int, price float64, category, description, supplier, location string) (*Product, error) {
@@ -36,15 +36,15 @@ func New(name string, id int, quantity int, price float64, category, description
 	}
 
 	return &Product{
-		pName:        name,
-		pId:          id,
-		pQuantity:    quantity,
-		pPrice:       price,
-		pCategory:    category,
-		pDescription: description,
-		createdAt:    time.Now(), 
-		pSupplier:    supplier,
-		pLocation:    location,
+		PName:        name,
+		PId:          id,
+		PQuantity:    quantity,
+		PPrice:       price,
+		PCategory:    category,
+		PDescription: description,
+		CreatedAt:    time.Now(), 
+		PSupplier:    supplier,
+		PLocation:    location,
 	}, nil
 }
 
@@ -55,17 +55,17 @@ func (product Product) Display() {
         return
     }
 
-    localTime := product.createdAt.In(loc)
+    localTime := product.CreatedAt.In(loc)
 
-    fmt.Printf("\n\nSeu produto chamado %v tem as seguintes características:\n", product.pName)
+    fmt.Printf("\n\nSeu produto chamado %v tem as seguintes características:\n", product.PName)
     fmt.Printf("----------------------------------------\n")
-    fmt.Printf("ID: %d\n", product.pId)
-    fmt.Printf("Quantidade em estoque: %d\n", product.pQuantity)
-    fmt.Printf("Preço: R$ %.2f\n", product.pPrice)
-    fmt.Printf("Categoria: %s\n", product.pCategory)
-    fmt.Printf("Descrição: %s\n", product.pDescription)
-    fmt.Printf("Fornecedor: %s\n", product.pSupplier)
-    fmt.Printf("Localização no estoque: %s\n", product.pLocation)
+    fmt.Printf("ID: %d\n", product.PId)
+    fmt.Printf("Quantidade em estoque: %d\n", product.PQuantity)
+    fmt.Printf("Preço: R$ %.2f\n", product.PPrice)
+    fmt.Printf("Categoria: %s\n", product.PCategory)
+    fmt.Printf("Descrição: %s\n", product.PDescription)
+    fmt.Printf("Fornecedor: %s\n", product.PSupplier)
+    fmt.Printf("Localização no estoque: %s\n", product.PLocation)
     fmt.Printf("Data de criação: %s\n", localTime.Format("02/01/2006 15:04:05")) 
     fmt.Printf("----------------------------------------\n\n")
 }

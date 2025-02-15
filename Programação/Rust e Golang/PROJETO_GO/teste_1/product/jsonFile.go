@@ -8,7 +8,8 @@ import (
 )
 
 func (product Product) SaveToJSON() error {
-	fileName := strings.ReplaceAll(product.pName, " ", "_")
+
+	fileName := strings.ReplaceAll(product.PName, " ", "_")
 	fileName = strings.ToLower(fileName) + ".json"
 
 	jsonData, err := json.MarshalIndent(product, "", "  ")
