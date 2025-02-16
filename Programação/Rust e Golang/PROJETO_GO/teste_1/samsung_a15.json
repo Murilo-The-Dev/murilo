@@ -1,0 +1,11 @@
+{
+  "pName": "Samsung A15",
+  "pId": 2,
+  "pQuantity": 3,
+  "pPrice": 1500,
+  "pCategory": "eletronicos",
+  "pDescription": "Celular Samsung novo mas ruim",
+  "createdAt": "2025-02-16T00:09:45.6391414-03:00",
+  "pSupplier": "Casas Bahia",
+  "pLocation": "perto do lixo"
+}
