@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -264,6 +265,8 @@ func editarProduto(reader *bufio.Reader) {
 	if location != "" {
 		product.PLocation = location
 	}
+
+	product.UpdatedAt = time.Now()
 
 	err = product.UpdateProduct(fileName)
 	if err != nil {
