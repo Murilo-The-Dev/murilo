@@ -68,3 +68,23 @@ func DeleteJSONFile(fileName string) error {
 	fmt.Printf("Arquivo excluído com sucesso: %s\n", fileName)
 	return nil
 }
+
+func IDExists(id int) (bool, error) {
+	jsonFiles, err := ListJSONFiles()
+	if err != nil {
+		return false, fmt.Errorf("erro ao listar arquivos JSON: %v", err)
+	}
+
+	for _, file := range jsonFiles {
+		product, err := LoadFromJSON(file)
+		if err != nil {
+			return false, fmt.Errorf("erro ao carregar produto: %v", err)
+		}
+
+		if product.PId == id {
+			return true, nil
+		}
+	}
+
+	return false, nil
+}

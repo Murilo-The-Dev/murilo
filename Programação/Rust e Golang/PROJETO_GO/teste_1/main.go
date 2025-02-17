@@ -61,6 +61,16 @@ func cadastrarProduto(reader *bufio.Reader) {
 		return
 	}
 
+	exists, err := product.IDExists(id)
+	if err != nil {
+		fmt.Println("Erro ao verificar ID:", err)
+		return
+	}
+	if exists {
+		fmt.Println("Erro: ID já está em uso. Escolha outro ID.")
+		return
+	}
+
 	fmt.Print("Quantidade em estoque: ")
 	quantityStr, _ := reader.ReadString('\n')
 	quantityStr = strings.TrimSpace(quantityStr)
