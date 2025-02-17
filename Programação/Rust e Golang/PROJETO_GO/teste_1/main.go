@@ -13,10 +13,11 @@ func main() {
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
-		fmt.Printf("\n\nEscolha uma opção:\n\n")
+		fmt.Println("Escolha uma opção:")
 		fmt.Println("1. Novo produto")
 		fmt.Println("2. Ler produto")
-		fmt.Println("3. Sair")
+		fmt.Println("3. Excluir produto")
+		fmt.Println("4. Sair")
 		fmt.Print("Opção: ")
 
 		optionStr, _ := reader.ReadString('\n')
@@ -33,10 +34,12 @@ func main() {
 		case 2:
 			lerProduto(reader)
 		case 3:
+			excluirProduto(reader)
+		case 4:
 			fmt.Println("Saindo...")
 			return
 		default:
-			fmt.Println("Erro: Opção inválida. Escolha 1, 2 ou 3.")
+			fmt.Println("Erro: Opção inválida. Escolha 1, 2, 3 ou 4.")
 		}
 	}
 }
@@ -121,7 +124,7 @@ func lerProduto(reader *bufio.Reader) {
 	}
 
 	if len(jsonFiles) == 0 {
-		fmt.Printf("\nNenhum produto salvo encontrado.")
+		fmt.Println("Nenhum produto salvo encontrado.")
 		return
 	}
 
@@ -147,4 +150,43 @@ func lerProduto(reader *bufio.Reader) {
 	}
 
 	product.Display()
+}
+
+func excluirProduto(reader *bufio.Reader) {
+	fmt.Println("\nExclusão de Produto")
+	fmt.Println("------------------")
+
+	jsonFiles, err := product.ListJSONFiles()
+	if err != nil {
+		fmt.Println("Erro ao listar arquivos JSON:", err)
+		return
+	}
+
+	if len(jsonFiles) == 0 {
+		fmt.Println("Nenhum produto salvo encontrado.")
+		return
+	}
+
+	fmt.Println("Produtos salvos:")
+	for i, file := range jsonFiles {
+		fmt.Printf("%d. %s\n", i+1, file)
+	}
+
+	fmt.Print("Escolha o número do produto que deseja excluir: ")
+	choiceStr, _ := reader.ReadString('\n')
+	choiceStr = strings.TrimSpace(choiceStr)
+	choice, err := strconv.Atoi(choiceStr)
+	if err != nil || choice < 1 || choice > len(jsonFiles) {
+		fmt.Println("Erro: Escolha inválida.")
+		return
+	}
+
+	fileName := jsonFiles[choice-1]
+	err = product.DeleteJSONFile(fileName)
+	if err != nil {
+		fmt.Println("Erro ao excluir produto:", err)
+		return
+	}
+
+	fmt.Printf("Produto excluído com sucesso: %s\n", fileName)
 }

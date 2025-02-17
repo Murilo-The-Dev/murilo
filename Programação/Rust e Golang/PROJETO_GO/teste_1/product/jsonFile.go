@@ -58,3 +58,13 @@ func ListJSONFiles() ([]string, error) {
 
 	return jsonFiles, nil
 }
+
+func DeleteJSONFile(fileName string) error {
+	err := os.Remove(fileName)
+	if err != nil {
+		return fmt.Errorf("erro ao excluir arquivo JSON: %v", err)
+	}
+
+	fmt.Printf("Arquivo excluído com sucesso: %s\n", fileName)
+	return nil
+}
