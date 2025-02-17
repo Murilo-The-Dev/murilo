@@ -8,7 +8,6 @@ import (
 )
 
 func (product Product) SaveToJSON() error {
-
 	fileName := strings.ReplaceAll(product.PName, " ", "_")
 	fileName = strings.ToLower(fileName) + ".json"
 
@@ -44,6 +43,7 @@ func LoadFromJSON(fileName string) (*Product, error) {
 }
 
 func ListJSONFiles() ([]string, error) {
+
 	files, err := os.ReadDir(".")
 	if err != nil {
 		return nil, fmt.Errorf("erro ao ler arquivos da pasta: %v", err)
@@ -87,4 +87,29 @@ func IDExists(id int) (bool, error) {
 	}
 
 	return false, nil
+}
+
+func (product Product) UpdateProduct(oldFileName string) error {
+	newFileName := strings.ReplaceAll(product.PName, " ", "_")
+	newFileName = strings.ToLower(newFileName) + ".json"
+
+	jsonData, err := json.MarshalIndent(product, "", "  ")
+	if err != nil {
+		return fmt.Errorf("erro ao converter produto para JSON: %v", err)
+	}
+
+	err = os.WriteFile(newFileName, jsonData, 0644)
+	if err != nil {
+		return fmt.Errorf("erro ao salvar produto atualizado: %v", err)
+	}
+
+	if oldFileName != newFileName {
+		err = os.Remove(oldFileName)
+		if err != nil {
+			return fmt.Errorf("erro ao remover arquivo antigo: %v", err)
+		}
+	}
+
+	fmt.Printf("Produto atualizado com sucesso: %s\n", newFileName)
+	return nil
 }
