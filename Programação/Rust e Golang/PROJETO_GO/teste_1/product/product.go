@@ -1,9 +1,9 @@
 package product
 
 import (
-	"errors"
-	"time"
-	"fmt"
+    "errors"
+    "time"
+    "fmt"
 )
 
 type Product struct {
@@ -19,24 +19,27 @@ type Product struct {
     PLocation    string    `json:"pLocation"`
 }
 
-func New(name string, id int, quantity int, price float64, category, description, supplier, location string) (*Product, error) {
-	if name == "" {
-		return nil, errors.New("nome do produto não pode ser nulo")
-	}
-	if id <= 0 {
-		return nil, errors.New("ID do produto deve ser maior que zero")
-	}
-	if quantity < 0 {
-		return nil, errors.New("quantidade não pode ser negativa")
-	}
-	if price < 0 {
-		return nil, errors.New("preço não pode ser negativo")
-	}
-	if category == "" {
-		return nil, errors.New("categoria não pode ser vazia")
-	}
+type ProductList struct {
+    Products []Product `json:"products"`
+}
 
-	return &Product{
+func New(name string, id int, quantity int, price float64, category, description, supplier, location string) (*Product, error) {
+    if name == "" {
+        return nil, errors.New("nome do produto não pode ser vazio")
+    }
+    if id <= 0 {
+        return nil, errors.New("ID do produto deve ser maior que zero")
+    }
+    if quantity < 0 {
+        return nil, errors.New("quantidade não pode ser negativa")
+    }
+    if price < 0 {
+        return nil, errors.New("preço não pode ser negativo")
+    }
+    if category == "" {
+        return nil, errors.New("categoria não pode ser vazia")
+    }
+    return &Product{
         PName:        name,
         PId:          id,
         PQuantity:    quantity,
@@ -56,10 +59,8 @@ func (product Product) Display() {
         fmt.Println("Erro ao carregar o fuso horário:", err)
         return
     }
-
     createdAt := product.CreatedAt.In(loc).Format("02/01/2006 15:04:05")
     updatedAt := product.UpdatedAt.In(loc).Format("02/01/2006 15:04:05")
-
     fmt.Printf("\n\nSeu produto chamado %v tem as seguintes características:\n", product.PName)
     fmt.Printf("----------------------------------------\n")
     fmt.Printf("ID: %d\n", product.PId)

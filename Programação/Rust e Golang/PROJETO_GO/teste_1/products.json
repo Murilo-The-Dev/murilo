@@ -1,0 +1,28 @@
+{
+  "products": [
+    {
+      "pName": "Fralda Pampers",
+      "pId": 1,
+      "pQuantity": 55,
+      "pPrice": 79.9,
+      "pCategory": "infantil",
+      "pDescription": "fraldas pampers de diversos tamanhos",
+      "createdAt": "2025-02-20T09:35:33.4168867-03:00",
+      "updatedAt": "2025-02-20T09:52:26.431877-03:00",
+      "pSupplier": "P\u0026G",
+      "pLocation": "estante 3 prateleira 5"
+    },
+    {
+      "pName": "Copo Descartável",
+      "pId": 2,
+      "pQuantity": 40,
+      "pPrice": 19.9,
+      "pCategory": "utensilios",
+      "pDescription": "copos descartáveis 300ml",
+      "createdAt": "2025-02-20T09:56:30.4399914-03:00",
+      "updatedAt": "2025-02-20T10:47:10.3829425-03:00",
+      "pSupplier": "plastico ltda",
+      "pLocation": "na caixa la"
+    }
+  ]
+}

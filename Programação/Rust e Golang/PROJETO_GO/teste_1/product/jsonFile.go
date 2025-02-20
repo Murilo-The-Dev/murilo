@@ -1,115 +1,84 @@
 package product
 
 import (
-	"encoding/json"
-	"fmt"
-	"os"
-	"strings"
+    "encoding/json"
+    "fmt"
+    "os"
+	"time"
 )
 
-func (product Product) SaveToJSON() error {
-	fileName := strings.ReplaceAll(product.PName, " ", "_")
-	fileName = strings.ToLower(fileName) + ".json"
+const fileName = "products.json" 
 
-	jsonData, err := json.MarshalIndent(product, "", "  ")
-	if err != nil {
-		return fmt.Errorf("erro ao converter produto para JSON: %v", err)
-	}
-
-	err = os.WriteFile(fileName, jsonData, 0644)
-	if err != nil {
-		return fmt.Errorf("erro ao salvar arquivo JSON: %v", err)
-	}
-
-	fmt.Printf("Produto salvo com sucesso no arquivo: %s\n", fileName)
-	return nil
+func SaveProductsToFile(products []Product) error {
+    productList := ProductList{Products: products}
+    jsonData, err := json.MarshalIndent(productList, "", "  ")
+    if err != nil {
+        return fmt.Errorf("erro ao converter lista de produtos para JSON: %v", err)
+    }
+    err = os.WriteFile(fileName, jsonData, 0644)
+    if err != nil {
+        return fmt.Errorf("erro ao salvar arquivo JSON: %v", err)
+    }
+    fmt.Printf("Lista de produtos salva com sucesso no arquivo: %s\n", fileName)
+    return nil
 }
 
-func LoadFromJSON(fileName string) (*Product, error) {
-
-	jsonData, err := os.ReadFile(fileName)
-	if err != nil {
-		return nil, fmt.Errorf("erro ao ler arquivo JSON: %v", err)
-	}
-
-	var product Product
-	err = json.Unmarshal(jsonData, &product)
-	if err != nil {
-		return nil, fmt.Errorf("erro ao decodificar JSON: %v", err)
-	}
-
-	fmt.Printf("Produto carregado com sucesso do arquivo: %s\n", fileName)
-	return &product, nil
+func LoadProductsFromFile() ([]Product, error) {
+    jsonData, err := os.ReadFile(fileName)
+    if err != nil {
+        if os.IsNotExist(err) {
+            return []Product{}, nil
+        }
+        return nil, fmt.Errorf("erro ao ler arquivo JSON: %v", err)
+    }
+    var productList ProductList
+    err = json.Unmarshal(jsonData, &productList)
+    if err != nil {
+        return nil, fmt.Errorf("erro ao decodificar JSON: %v", err)
+    }
+    return productList.Products, nil
 }
 
-func ListJSONFiles() ([]string, error) {
-
-	files, err := os.ReadDir(".")
-	if err != nil {
-		return nil, fmt.Errorf("erro ao ler arquivos da pasta: %v", err)
-	}
-
-	var jsonFiles []string
-	for _, file := range files {
-		if !file.IsDir() && strings.HasSuffix(file.Name(), ".json") {
-			jsonFiles = append(jsonFiles, file.Name())
-		}
-	}
-
-	return jsonFiles, nil
+func IDExists(id int, products []Product) bool {
+    for _, product := range products {
+        if product.PId == id {
+            return true
+        }
+    }
+    return false
 }
 
-func DeleteJSONFile(fileName string) error {
-	err := os.Remove(fileName)
-	if err != nil {
-		return fmt.Errorf("erro ao excluir arquivo JSON: %v", err)
-	}
-
-	fmt.Printf("Arquivo excluído com sucesso: %s\n", fileName)
-	return nil
+func (p *Product) AddProduct() error {
+    products, err := LoadProductsFromFile()
+    if err != nil {
+        return err
+    }
+    if IDExists(p.PId, products) {
+        return fmt.Errorf("erro: ID %d já está em uso", p.PId)
+    }
+    products = append(products, *p)
+    return SaveProductsToFile(products)
 }
 
-func IDExists(id int) (bool, error) {
-	jsonFiles, err := ListJSONFiles()
-	if err != nil {
-		return false, fmt.Errorf("erro ao listar arquivos JSON: %v", err)
-	}
 
-	for _, file := range jsonFiles {
-		product, err := LoadFromJSON(file)
-		if err != nil {
-			return false, fmt.Errorf("erro ao carregar produto: %v", err)
-		}
+func (p *Product) EditProduct(index int, products []Product) ([]Product, error) {
 
-		if product.PId == id {
-			return true, nil
-		}
-	}
+    p.UpdatedAt = time.Now()
 
-	return false, nil
+    products[index] = *p
+    return products, nil
 }
 
-func (product Product) UpdateProduct(oldFileName string) error {
-	newFileName := strings.ReplaceAll(product.PName, " ", "_")
-	newFileName = strings.ToLower(newFileName) + ".json"
-
-	jsonData, err := json.MarshalIndent(product, "", "  ")
-	if err != nil {
-		return fmt.Errorf("erro ao converter produto para JSON: %v", err)
-	}
-
-	err = os.WriteFile(newFileName, jsonData, 0644)
-	if err != nil {
-		return fmt.Errorf("erro ao salvar produto atualizado: %v", err)
-	}
-
-	if oldFileName != newFileName {
-		err = os.Remove(oldFileName)
-		if err != nil {
-			return fmt.Errorf("erro ao remover arquivo antigo: %v", err)
-		}
-	}
-
-	fmt.Printf("Produto atualizado com sucesso: %s\n", newFileName)
-	return nil
+func DeleteProduct(id int) error {
+    products, err := LoadProductsFromFile()
+    if err != nil {
+        return err
+    }
+    for i, product := range products {
+        if product.PId == id {
+            products = append(products[:i], products[i+1:]...)
+            return SaveProductsToFile(products)
+        }
+    }
+    return fmt.Errorf("erro: produto com ID %d não encontrado", id)
 }
