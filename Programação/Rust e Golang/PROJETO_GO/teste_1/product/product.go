@@ -1,9 +1,10 @@
 package product
 
 import (
-    "errors"
-    "time"
-    "fmt"
+	"errors"
+	"fmt"
+	"sort"
+	"time"
 )
 
 type Product struct {
@@ -21,6 +22,43 @@ type Product struct {
 
 type ProductList struct {
     Products []Product `json:"products"`
+}
+
+type DashboardStats struct {
+    TotalProducts     int
+    TotalStockValue   float64
+    MostExpensive     Product
+    LowestStock       Product
+    ProductsByCategory map[string]int
+}
+
+func CalculateDashboardStats(products []Product) DashboardStats {
+    stats := DashboardStats{
+        ProductsByCategory: make(map[string]int),
+    }
+
+    if len(products) == 0 {
+        return stats
+    }
+
+    stats.TotalProducts = len(products)
+    stats.MostExpensive = products[0]
+    stats.LowestStock = products[0]
+
+    for _, p := range products {
+
+        stats.TotalStockValue += p.PPrice * float64(p.PQuantity)
+
+        if p.PPrice > stats.MostExpensive.PPrice {
+            stats.MostExpensive = p
+        }
+        if p.PQuantity < stats.LowestStock.PQuantity {
+            stats.LowestStock = p
+        }
+        stats.ProductsByCategory[p.PCategory]++
+    }
+
+    return stats
 }
 
 func New(name string, id int, quantity int, price float64, category, description, supplier, location string) (*Product, error) {
@@ -73,4 +111,65 @@ func (product Product) Display() {
     fmt.Printf("Data de criação: %s\n", createdAt)
     fmt.Printf("Última atualização: %s\n", updatedAt)
     fmt.Printf("----------------------------------------\n\n")
+}
+
+// Funções de ordenação
+func SortProductsByName(products []Product, ascending bool) {
+	if ascending {
+		sort.Slice(products, func(i, j int) bool {
+			return products[i].PName < products[j].PName
+		})
+	} else {
+		sort.Slice(products, func(i, j int) bool {
+			return products[i].PName > products[j].PName
+		})
+	}
+}
+
+func SortProductsByID(products []Product, ascending bool) {
+	if ascending {
+		sort.Slice(products, func(i, j int) bool {
+			return products[i].PId < products[j].PId
+		})
+	} else {
+		sort.Slice(products, func(i, j int) bool {
+			return products[i].PId > products[j].PId
+		})
+	}
+}
+
+func SortProductsByPrice(products []Product, ascending bool) {
+	if ascending {
+		sort.Slice(products, func(i, j int) bool {
+			return products[i].PPrice < products[j].PPrice
+		})
+	} else {
+		sort.Slice(products, func(i, j int) bool {
+			return products[i].PPrice > products[j].PPrice
+		})
+	}
+}
+
+func SortProductsByQuantity(products []Product, ascending bool) {
+	if ascending {
+		sort.Slice(products, func(i, j int) bool {
+			return products[i].PQuantity < products[j].PQuantity
+		})
+	} else {
+		sort.Slice(products, func(i, j int) bool {
+			return products[i].PQuantity > products[j].PQuantity
+		})
+	}
+}
+
+func SortProductsByCreationDate(products []Product, ascending bool) {
+	if ascending {
+		sort.Slice(products, func(i, j int) bool {
+			return products[i].CreatedAt.Before(products[j].CreatedAt)
+		})
+	} else {
+		sort.Slice(products, func(i, j int) bool {
+			return products[i].CreatedAt.After(products[j].CreatedAt)
+		})
+	}
 }

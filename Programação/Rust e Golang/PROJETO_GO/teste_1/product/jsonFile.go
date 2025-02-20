@@ -62,7 +62,6 @@ func (p *Product) AddProduct() error {
 
 
 func (p *Product) EditProduct(index int, products []Product) ([]Product, error) {
-
     p.UpdatedAt = time.Now()
 
     products[index] = *p
