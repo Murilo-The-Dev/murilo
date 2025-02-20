@@ -8,9 +8,10 @@ import (
 	"time"
 
 	"exemple.com/teste_1/product"
-	"fyne.io/fyne/v2/canvas"
+	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/theme"
@@ -93,36 +94,79 @@ func StartGUI() {
 	}
 
 	createAddProductScreen = func() fyne.CanvasObject {
+		title := canvas.NewText("Adicionar Produto", nil)
+		title.TextStyle = fyne.TextStyle{Bold: true}
+		title.TextSize = 22
+		title.Alignment = fyne.TextAlignCenter
+		
+		myWindow.Resize(fyne.NewSize(800, 600))
+		fieldSize := fyne.NewSize(600, 40)
+		descriptionSize := fyne.NewSize(600, 80)
+	
 		nameEntry := widget.NewEntry()
+		nameEntry.SetPlaceHolder("Digite o nome do produto")
+		nameContainer := container.NewGridWrap(fieldSize, nameEntry)
+	
 		idEntry := widget.NewEntry()
+		idEntry.SetPlaceHolder("Digite o ID")
+		idContainer := container.NewGridWrap(fyne.NewSize(100, 40), idEntry)
+	
 		quantityEntry := widget.NewEntry()
+		quantityEntry.SetPlaceHolder("Digite a quantidade")
+		quantityContainer := container.NewGridWrap(fyne.NewSize(150, 40), quantityEntry)
+	
 		priceEntry := widget.NewEntry()
+		priceEntry.SetPlaceHolder("Digite o preço")
+		priceContainer := container.NewGridWrap(fyne.NewSize(150, 40), priceEntry)
+	
 		categoryEntry := widget.NewEntry()
-		descriptionEntry := widget.NewEntry()
+		categoryEntry.SetPlaceHolder("Digite a categoria")
+		categoryContainer := container.NewGridWrap(fyne.NewSize(200, 40), categoryEntry)
+	
+		descriptionEntry := widget.NewMultiLineEntry()
+		descriptionEntry.SetPlaceHolder("Digite a descrição")
+		descriptionContainer := container.NewGridWrap(descriptionSize, descriptionEntry)
+	
 		supplierEntry := widget.NewEntry()
+		supplierEntry.SetPlaceHolder("Digite o fornecedor")
+		supplierContainer := container.NewGridWrap(fyne.NewSize(300, 40), supplierEntry)
+	
 		locationEntry := widget.NewEntry()
-
+		locationEntry.SetPlaceHolder("Digite a localização")
+		locationContainer := container.NewGridWrap(fieldSize, locationEntry)
+	
+		form := container.New(layout.NewFormLayout(),
+			widget.NewLabel("Nome:"), nameContainer,
+			widget.NewLabel("ID:"), idContainer,
+			widget.NewLabel("Quantidade:"), quantityContainer,
+			widget.NewLabel("Preço:"), priceContainer,
+			widget.NewLabel("Categoria:"), categoryContainer,
+			widget.NewLabel("Descrição:"), descriptionContainer,
+			widget.NewLabel("Fornecedor:"), supplierContainer,
+			widget.NewLabel("Localização:"), locationContainer,
+		)
+	
 		validateAndCreateProduct := func() error {
 			id, err := strconv.Atoi(idEntry.Text)
 			if err != nil {
 				return fmt.Errorf("id deve ser um número inteiro")
 			}
-
+	
 			quantity, err := strconv.Atoi(quantityEntry.Text)
 			if err != nil {
 				return fmt.Errorf("quantidade deve ser um número inteiro")
 			}
-
+	
 			price, err := parsePrice(priceEntry.Text)
 			if err != nil {
 				return err
 			}
-
+	
 			products := updateProductList()
 			if product.IDExists(id, products) {
 				return fmt.Errorf("id já está em uso. por favor, escolha outro id")
 			}
-
+	
 			newProduct, err := product.New(
 				nameEntry.Text,
 				id,
@@ -136,11 +180,11 @@ func StartGUI() {
 			if err != nil {
 				return fmt.Errorf("erro ao criar produto: %v", err)
 			}
-
+	
 			return newProduct.AddProduct()
 		}
-
-		addButton := widget.NewButton("Adicionar Produto", func() {
+	
+		addButton := widget.NewButtonWithIcon("Adicionar", theme.ConfirmIcon(), func() {
 			if err := validateAndCreateProduct(); err != nil {
 				dialog.ShowError(err, myWindow)
 				return
@@ -148,25 +192,23 @@ func StartGUI() {
 			dialog.ShowInformation("Sucesso", "Produto adicionado com sucesso!", myWindow)
 			myWindow.SetContent(createHomeScreen())
 		})
-
-		backButton := widget.NewButton("Voltar", func() {
+	
+		backButton := widget.NewButtonWithIcon("Voltar", theme.NavigateBackIcon(), func() {
 			myWindow.SetContent(createHomeScreen())
 		})
-
-		return container.NewVBox(
-			widget.NewLabel("Novo Produto"),
-			widget.NewLabel("Nome:"), nameEntry,
-			widget.NewLabel("ID:"), idEntry,
-			widget.NewLabel("Quantidade:"), quantityEntry,
-			widget.NewLabel("Preço:"), priceEntry,
-			widget.NewLabel("Categoria:"), categoryEntry,
-			widget.NewLabel("Descrição:"), descriptionEntry,
-			widget.NewLabel("Fornecedor:"), supplierEntry,
-			widget.NewLabel("Localização:"), locationEntry,
-			addButton,
-			backButton,
+	
+		buttons := container.NewHBox(layout.NewSpacer(), backButton, addButton, layout.NewSpacer())
+	
+		content := container.NewVBox(
+			title,
+			widget.NewSeparator(),
+			container.NewPadded(form),
+			widget.NewSeparator(),
+			buttons,
 			createSignature(),
 		)
+	
+		return container.NewCenter(content)
 	}
 
 	createHomeScreen = func() fyne.CanvasObject {
