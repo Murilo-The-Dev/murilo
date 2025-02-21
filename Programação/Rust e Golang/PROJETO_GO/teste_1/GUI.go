@@ -1,98 +1,121 @@
+// Package main implementa a interface gráfica do sistema de estoque usando Fyne
 package main
 
 import (
-	"fmt"
-	"net/url"
-	"sort"
-	"strconv"
-	"strings"
-	"time"
+    "fmt"
+    "net/url"
+    "sort"
+    "strconv"
+    "strings"
+    "time"
 
-	"exemple.com/teste_1/product"
-	"fyne.io/fyne/v2"
-	"fyne.io/fyne/v2/app"
-	"fyne.io/fyne/v2/canvas"
-	"fyne.io/fyne/v2/container"
-	"fyne.io/fyne/v2/dialog"
-	"fyne.io/fyne/v2/layout"
-	"fyne.io/fyne/v2/theme"
-	"fyne.io/fyne/v2/widget"
+    "exemple.com/teste_1/product"
+    "fyne.io/fyne/v2"
+    "fyne.io/fyne/v2/app"
+    "fyne.io/fyne/v2/canvas"
+    "fyne.io/fyne/v2/container"
+    "fyne.io/fyne/v2/dialog"
+    "fyne.io/fyne/v2/layout"
+    "fyne.io/fyne/v2/theme"
+    "fyne.io/fyne/v2/widget"
 )
 
+// Constantes para dimensões da janela
 const (
-	windowWidth  = 800
-	windowHeight = 600
+    windowWidth  = 800
+    windowHeight = 600
 )
 
+// parsePrice converte uma string de preço para float64
+// Aceita tanto ponto quanto vírgula como separador decimal
 func parsePrice(value string) (float64, error) {
-	value = strings.Replace(value, ",", ".", -1)
+    // Substitui vírgula por ponto para padronização
+    value = strings.Replace(value, ",", ".", -1)
 
-	price, err := strconv.ParseFloat(value, 64)
-	if err != nil {
-		return 0, fmt.Errorf("preço deve ser um número válido (use '.' ou ',' como separador decimal)")
-	}
-	return price, nil
+    price, err := strconv.ParseFloat(value, 64)
+    if err != nil {
+        return 0, fmt.Errorf("preço deve ser um número válido (use '.' ou ',' como separador decimal)")
+    }
+    return price, nil
 }
 
+// formatProductList formata uma lista de produtos para exibição
+// Inclui todos os detalhes do produto com formatação adequada
 func formatProductList(products []product.Product) string {
-	var list string
-	for _, p := range products {
-		loc, err := time.LoadLocation("America/Sao_Paulo")
-		if err != nil {
-			return fmt.Sprintf("Erro ao carregar o fuso horário: %v", err)
-		}
-		createdAt := p.CreatedAt.In(loc).Format("02/01/2006 15:04:05")
-		updatedAt := p.UpdatedAt.In(loc).Format("02/01/2006 15:04:05")
+    var list string
+    for _, p := range products {
+        // Configura fuso horário para São Paulo
+        loc, err := time.LoadLocation("America/Sao_Paulo")
+        if err != nil {
+            return fmt.Sprintf("Erro ao carregar o fuso horário: %v", err)
+        }
+        
+        // Formata datas no padrão brasileiro
+        createdAt := p.CreatedAt.In(loc).Format("02/01/2006 15:04:05")
+        updatedAt := p.UpdatedAt.In(loc).Format("02/01/2006 15:04:05")
 
-		list += fmt.Sprintf(
-			"ID: %d\n"+
-				"Nome: %s\n"+
-				"Quantidade: %d\n"+
-				"Preço: R$ %.2f\n"+
-				"Categoria: %s\n"+
-				"Descrição: %s\n"+
-				"Fornecedor: %s\n"+
-				"Localização: %s\n"+
-				"Data de Criação: %s\n"+
-				"Última Atualização: %s\n"+
-				"----------------------------------------\n",
-			p.PId, p.PName, p.PQuantity, p.PPrice, p.PCategory, p.PDescription,
-			p.PSupplier, p.PLocation, createdAt, updatedAt,
-		)
-	}
-	return list
+        // Formata os detalhes do produto
+        list += fmt.Sprintf(
+            "ID: %d\n"+
+                "Nome: %s\n"+
+                "Quantidade: %d\n"+
+                "Preço: R$ %.2f\n"+
+                "Categoria: %s\n"+
+                "Descrição: %s\n"+
+                "Fornecedor: %s\n"+
+                "Localização: %s\n"+
+                "Data de Criação: %s\n"+
+                "Última Atualização: %s\n"+
+                "----------------------------------------\n",
+            p.PId, p.PName, p.PQuantity, p.PPrice, p.PCategory, p.PDescription,
+            p.PSupplier, p.PLocation, createdAt, updatedAt,
+        )
+    }
+    return list
 }
 
+// StartGUI inicia a interface gráfica do sistema
 func StartGUI() {
-	myApp := app.New()
-	myWindow := myApp.NewWindow("Controle de Estoque")
-	myWindow.Resize(fyne.NewSize(windowWidth, windowHeight))
+    // Cria a aplicação e janela principal
+    myApp := app.New()
+    myWindow := myApp.NewWindow("Controle de Estoque")
+    myWindow.Resize(fyne.NewSize(windowWidth, windowHeight))
 
-	var createHomeScreen func() fyne.CanvasObject
-	var createAddProductScreen func() fyne.CanvasObject
-	var createViewProductsScreen func() fyne.CanvasObject
-	var createEditProductScreen func() fyne.CanvasObject
-	var createDeleteProductScreen func() fyne.CanvasObject
-	var createDashboardScreen func() fyne.CanvasObject
+    // Declara funções para criar diferentes telas
+    var createHomeScreen func() fyne.CanvasObject
+    var createAddProductScreen func() fyne.CanvasObject
+    var createViewProductsScreen func() fyne.CanvasObject
+    var createEditProductScreen func() fyne.CanvasObject
+    var createDeleteProductScreen func() fyne.CanvasObject
+    var createDashboardScreen func() fyne.CanvasObject
 
-	updateProductList := func() []product.Product {
-		products, err := product.LoadProductsFromFile()
-		if err != nil {
-			dialog.ShowError(fmt.Errorf("erro ao carregar produtos: %v", err), myWindow)
-			return nil
-		}
-		return products
-	}
+    // updateProductList carrega a lista atualizada de produtos
+    updateProductList := func() []product.Product {
+        products, err := product.LoadProductsFromFile()
+        if err != nil {
+            dialog.ShowError(fmt.Errorf("erro ao carregar produtos: %v", err), myWindow)
+            return nil
+        }
+        return products
+    }
 
-	createSignature := func() *widget.Hyperlink {
-		signature := widget.NewHyperlink("By Murilo", &url.URL{
-			Scheme: "https",
-			Host:   "github.com",
-			Path:   "/MatuzalemOLD/murilo",
-		})
-		signature.Alignment = fyne.TextAlignCenter
-		return signature
-	}
+    // createSignature cria o link de assinatura do desenvolvedor
+    createSignature := func() *widget.Hyperlink {
+        signature := widget.NewHyperlink("By Murilo", &url.URL{
+            Scheme: "https",
+            Host:   "github.com",
+            Path:   "/MatuzalemOLD/murilo",
+        })
+        signature.Alignment = fyne.TextAlignCenter
+        return signature
+    }
+
+	// Implementação das telas...
+    // [O resto do código continua com a implementação de cada tela]
+    // Nota: Por brevidade, não incluí a implementação completa de cada tela aqui,
+    // mas o código original contém todas as implementações detalhadas de createHomeScreen,
+    // createAddProductScreen, createEditProductScreen, createViewProductsScreen,
+    // createDeleteProductScreen e createDashboardScreen
 
 	createHomeScreen = func() fyne.CanvasObject {
 		title := canvas.NewText("Controle de Estoque", nil)
