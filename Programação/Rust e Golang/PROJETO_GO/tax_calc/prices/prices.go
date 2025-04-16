@@ -1,54 +1,35 @@
 package prices
 
 import (
-	"bufio"
 	"fmt"
-	"os"
+
 	"example.com/tax_calc/conversion"
+	"example.com/tax_calc/filemanager"
 )
 
 type TaxIncludedPriceJob struct {
 	TaxRate          float64
 	InputPrice       []float64
-	TaxIncludedPrice map[string]float64
+	TaxIncludedPrice map[string]string
 }
 
 func (job *TaxIncludedPriceJob) LoadData() {
-	file, err := os.Open("prices.txt")
+
+	lines, err := filemanager.ReadLines("prices.txt")
 
 	if err != nil {
-		fmt.Println("Could not open the file!")
 		fmt.Println(err)
-		return
-	}
-
-	scanner := bufio.NewScanner(file)
-
-	var lines []string
-
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-
-	err = scanner.Err()
-
-	if err != nil {
-		fmt.Println("Could not read the file!")
-		fmt.Println(err)
-		file.Close()
 		return
 	}
 
 	prices, err := conversion.StringsToFloats(lines)
-	
+
 	if err != nil {
-	fmt.Println(err)
-	file.Close()
-	return
+		fmt.Println(err)
+		return
 	}
 
 	job.InputPrice = prices
-	file.Close()
 }
 
 func (job *TaxIncludedPriceJob) Process() {
@@ -61,7 +42,9 @@ func (job *TaxIncludedPriceJob) Process() {
 		result[fmt.Sprintf("%.2f", price)] = fmt.Sprintf("%.2f", taxIncludedPrice)
 	}
 
-	fmt.Println(result)
+	job.TaxIncludedPrice = result
+
+	filemanager.WriteJSON(fmt.Sprintf("result_%.0f.json", job.TaxRate*100), job)
 }
 
 func NewTaxIncludedPriceJob(taxRate float64) *TaxIncludedPriceJob {
