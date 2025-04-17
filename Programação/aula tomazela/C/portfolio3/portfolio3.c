@@ -7,8 +7,13 @@ void sacar(float *vSaldo)
     float saque;
     printf("\nInforme o valor a ser sacado: R$");
     scanf("%f", &saque);
-    *vSaldo = *vSaldo - saque;
-    contador++;
+
+    if (saque > *vSaldo){
+        printf("Saldo Insulficiente...\n");
+    } else {
+        *vSaldo = *vSaldo - saque;
+        contador++;
+    }
 }
 
 void depositar(float *vSaldo)
@@ -23,7 +28,6 @@ void depositar(float *vSaldo)
 void verificarSaldo(float *vSaldo)
 {
     printf("Seu saldo eh de R$ %.2f\n\n", *vSaldo);
-    contador++;
 }
 
 void mostrarHistorico()
