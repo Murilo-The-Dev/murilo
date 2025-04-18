@@ -8,9 +8,11 @@ void sacar(float *vSaldo)
     printf("\nInforme o valor a ser sacado: R$");
     scanf("%f", &saque);
 
-    if (saque > *vSaldo){
+    if (saque <= 0){
+        printf("Digite um valor valido...\n");
+        }else if(saque > *vSaldo){
         printf("Saldo Insulficiente...\n");
-    } else {
+        }else{
         *vSaldo = *vSaldo - saque;
         contador++;
     }
@@ -21,8 +23,13 @@ void depositar(float *vSaldo)
     float deposito;
     printf("\nInforme o valor a ser depositado: R$");
     scanf("%f", &deposito);
+
+    if (deposito <= 0) {
+        printf("Digite um valor valido...\n");
+    }else{
     *vSaldo = *vSaldo + deposito;
     contador++;
+    }
 }
 
 void verificarSaldo(float *vSaldo)
