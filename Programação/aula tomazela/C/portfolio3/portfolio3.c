@@ -45,7 +45,6 @@ void mostrarHistorico()
 int main()
 {
     int escolha;
-    int continuar = 1;
     float saldo = 0;
 
     printf("=== Caixa Eletronico, Portfolio2 ===\n\n");
