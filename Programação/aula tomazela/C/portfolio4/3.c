@@ -28,7 +28,7 @@ int main() {
     printf("Digite 0 para sair do jogo.\n\n");
 
     while (1) {
-        printf("Digite sua tentativa: ");
+        printf("Digite sua %d tentativa: ", contTentativas + 1);
         char buffer[100];
         if (!fgets(buffer, sizeof(buffer), stdin)) {
             printf("Erro de leitura.\n");
