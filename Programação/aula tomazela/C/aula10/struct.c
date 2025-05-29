@@ -18,16 +18,19 @@ int main() {
     for(int i = 0; i < TAM; i++) {
         printf("Digite a matricula do aluno %d: ", i + 1);
         scanf("%d", &turma[i].matricula);
+        getchar(); 
 
         if (turma[i].matricula == 0) {
             break;
         }
 
         printf("Digite o nome do aluno %d: ", i + 1);
-        scanf(" %[^\n]", turma[i].nome);
+        fgets(turma[i].nome, sizeof(turma[i].nome), stdin);
+        turma[i].nome[strcspn(turma[i].nome, "\n")];
 
         printf("Digite a nota do aluno %d: ", i + 1);
         scanf("%f", &turma[i].nota);
+        getchar();
 
         if (turma[i].nota < 0 || turma[i].nota > 10) {
             printf("Nota invalida! Digite novamente.\n");
