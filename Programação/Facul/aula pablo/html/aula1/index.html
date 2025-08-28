@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Murilo | Back-End Developer</title>
+  <meta name="description" content="Back-End Developer — Golang, C, Java, JavaScript. Python for data analysis. HTML5 and CSS." />
+  <style>
+    :root {
+      --bg: #0b0d0e;
+      --panel: #111416;
+      --text: #e6e6e6;
+      --muted: #a6a6a6;
+      --accent: #4da3ff;
+      --border: #1e2427;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 80% -10%, #0f1418 0%, var(--bg) 60%);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .wrap {
+      min-height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 48px 16px;
+    }
+    .card {
+      width: 100%;
+      max-width: 760px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.0));
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.02);
+      backdrop-filter: blur(6px);
+    }
+    h1 {
+      margin: 0 0 8px 0;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .subtitle {
+      margin: 0 0 20px 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .section { margin-top: 20px; }
+    .k {
+      display: inline-block;
+      padding: 2px 8px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 12px;
+      margin: 4px 6px 0 0;
+      color: var(--muted);
+    }
+    .hr {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 18px 0 12px 0;
+      border: 0;
+    }
+    p { margin: 12px 0; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <article class="card" aria-label="Profile">
+      <header>
+        <h1>Welcome</h1>
+        <p class="subtitle">Murilo — Back-End Developer</p>
+      </header>
+
+      <section class="section" aria-label="About">
+        <p>I am a Back-End Developer focused on building efficient and resilient systems.</p>
+        <p>My main stack is Golang, with additional experience in C, Java, and JavaScript.</p>
+        <p>I also use Python for data analysis, and have a solid foundation in HTML5 and CSS.</p>
+      </section>
+
+      <div class="hr" role="separator"></div>
+
+      <section class="section" aria-label="Philosophy">
+        <p>This space is where I shape ideas into code — sharp, minimal, and to the point.</p>
+        <p>In computing, every abstraction hides a deeper complexity. Behind every system lies logic, precision, and the pursuit of order within chaos. Code is not only instructions for machines, but also a mirror of how we structure thought.</p>
+      </section>
+
+      <div class="section" aria-label="Stack">
+        <span class="k">Golang</span>
+        <span class="k">C</span>
+        <span class="k">Java</span>
+        <span class="k">JavaScript</span>
+        <span class="k">Python (data analysis)</span>
+        <span class="k">HTML5</span>
+        <span class="k">CSS</span>
+      </div>
+    </article>
+  </main>
+</body>
+</html>
