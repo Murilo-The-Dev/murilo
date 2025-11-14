@@ -1,5 +1,11 @@
+<?php
+require_once 'includes/session.php';
+requireLogin();
+$usuario = getUserData();
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,14 +35,21 @@
             right: 0;
             bottom: 0;
             background: radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3), transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(138, 43, 226, 0.3), transparent 50%);
+                radial-gradient(circle at 80% 80%, rgba(138, 43, 226, 0.3), transparent 50%);
             animation: pulse 15s ease-in-out infinite;
             pointer-events: none;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 0.8; }
+
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
         }
 
         .header {
@@ -51,6 +64,7 @@
                 opacity: 0;
                 transform: translateY(-30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -60,7 +74,7 @@
         .header h1 {
             font-size: 3.5rem;
             font-weight: 800;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
             margin-bottom: 15px;
             background: linear-gradient(90deg, #fff 0%, #e0e7ff 50%, #fff 100%);
             -webkit-background-clip: text;
@@ -71,7 +85,7 @@
         .header p {
             font-size: 1.3rem;
             opacity: 0.95;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             letter-spacing: 0.5px;
         }
 
@@ -85,7 +99,7 @@
             border: none;
             border-radius: 25px;
             overflow: hidden;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
@@ -98,6 +112,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -122,7 +137,7 @@
 
         .product-card:hover {
             transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
         }
 
         .product-card:nth-child(2) {
@@ -150,7 +165,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 100%);
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
         }
 
         .product-img img {
@@ -182,8 +197,15 @@
         }
 
         @keyframes pulse-badge {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
         }
 
         .card-body {
@@ -264,7 +286,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: left 0.5s;
         }
 
@@ -286,7 +308,7 @@
             backdrop-filter: blur(10px);
             padding: 45px;
             border-radius: 25px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             margin-top: 80px;
             animation: fadeInUp 0.8s ease 0.6s both;
         }
@@ -363,7 +385,7 @@
         .total-value {
             font-size: 3rem;
             font-weight: 900;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .btn-clear {
@@ -375,12 +397,12 @@
             font-weight: 800;
             font-size: 1.1rem;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
 
         .btn-clear:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
             background: #f7fafc;
             color: #667eea;
         }
@@ -409,7 +431,7 @@
             background: white;
             color: #10b981;
             border: 2px solid white;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
             cursor: pointer;
         }
 
@@ -441,11 +463,11 @@
             .header h1 {
                 font-size: 2.5rem;
             }
-            
+
             .product-img {
                 height: 250px;
             }
-            
+
             .cart-summary {
                 padding: 30px 20px;
             }
@@ -516,21 +538,61 @@
             font-size: 0.9rem;
             margin-top: 20px;
         }
+
+        .user-bar {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 12px 25px;
+            border-radius: 50px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-weight: 600;
+            color: #1a202c;
+        }
+
+        .btn-logout {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+            color: white;
+        }
     </style>
 </head>
+
 <body>
+    <div class="user-bar">
+        <span>Olá, <?= htmlspecialchars($usuario['nome']) ?></span>
+        <a href="logout.php" class="btn-logout">Sair</a>
+    </div>
     <div class="container">
         <div class="header">
             <h1>🛍️ TechStore Premium</h1>
             <p>Tecnologia de ponta com design excepcional</p>
         </div>
-        
+
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="card product-card">
                     <div class="badge-new">NOVO</div>
                     <div class="product-img">
-                        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&h=600&fit=crop" alt="Smartphone">
+                        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&h=600&fit=crop"
+                            alt="Smartphone">
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">Smartphone XZ Pro</h5>
@@ -550,7 +612,8 @@
                 <div class="card product-card">
                     <div class="badge-new">NOVO</div>
                     <div class="product-img">
-                        <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=600&fit=crop" alt="Notebook">
+                        <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=600&fit=crop"
+                            alt="Notebook">
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">Notebook Ultra 15</h5>
@@ -570,7 +633,8 @@
                 <div class="card product-card">
                     <div class="badge-new">NOVO</div>
                     <div class="product-img">
-                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop" alt="Fone">
+                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop"
+                            alt="Fone">
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">Fone Bluetooth Max</h5>
@@ -610,7 +674,7 @@
         <div class="container">
             <div class="footer-content">
                 <h3 class="footer-title">Equipe de Desenvolvimento</h3>
-                
+
                 <div class="team-member">
                     <span class="team-member-name">Murilo do Amaral Christofoletti</span>
                     <span class="team-member-id">8204209</span>
@@ -633,7 +697,7 @@
 
 
                 <div class="footer-divider"></div>
-                
+
                 <p class="footer-copyright">© 2024 TechStore Premium - Todos os direitos reservados</p>
             </div>
         </div>
@@ -657,7 +721,7 @@
         function addToCart(id, name, price) {
             const qtyInput = document.getElementById(`qty-${id}`);
             const qty = parseInt(qtyInput.value);
-            
+
             if (qty > 0) {
                 if (cart[id]) {
                     cart[id].quantity += qty;
@@ -678,7 +742,7 @@
             const cartItems = document.getElementById('cart-items');
             const totalElement = document.getElementById('total');
             const btnPay = document.getElementById('btn-pay');
-            
+
             if (Object.keys(cart).length === 0) {
                 cartItems.innerHTML = `
                     <div class="empty-cart">
@@ -732,4 +796,5 @@
         loadCart();
     </script>
 </body>
+
 </html>
