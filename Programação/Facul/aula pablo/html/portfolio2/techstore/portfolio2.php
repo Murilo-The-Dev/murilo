@@ -787,9 +787,26 @@ $usuario = getUserData();
             updateCartDisplay();
         }
 
-        function pagar() {
-            if (Object.keys(cart).length > 0) {
-                window.location.href = 'hahaha.html';
+        async function pagar() {
+            if (Object.keys(cart).length === 0) return;
+
+            try {
+                const response = await fetch('processar_pagamento.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ carrinho: cart })
+                });
+
+                const resultado = await response.json();
+
+                if (resultado.sucesso) {
+                    clearCart();
+                    window.location.href = 'hahaha.html';
+                } else {
+                    alert('Erro ao processar pagamento');
+                }
+            } catch (erro) {
+                alert('Erro na comunicação');
             }
         }
 
