@@ -18,8 +18,7 @@ type Event struct {
 var events = []Event{}
 
 func (e Event) Save() error {
-	query := `
-	INSERT INTO events(name, description, location, dateTime, user_id) 
+	query := `INSERT INTO events(name, description, location, dateTime, user_id) 
 	VALUES (?, ?, ?, ?, ?)`
 	stmt, err := db.DB.Prepare(query)
 	if err != nil {
@@ -36,7 +35,7 @@ func (e Event) Save() error {
 }
 
 func GetAllEvents() ([]Event, error) {
-	query := "SELECT * FROM events"
+	query := `SELECT * FROM events`
 	rows, err := db.DB.Query(query)
 	if err != nil {
 		return nil, err
@@ -60,7 +59,7 @@ func GetAllEvents() ([]Event, error) {
 }
 
 func GetEventByID(id int64) (*Event, error) {
-	query := "SELECT * FROM events WHERE id = ?"
+	query := `SELECT * FROM events WHERE id = ?`
 	row := db.DB.QueryRow(query, id)
 
 	var event Event
@@ -70,4 +69,35 @@ func GetEventByID(id int64) (*Event, error) {
 	}
 
 	return &event, nil
+}
+
+func (event Event) Update() error {
+	query := `
+	UPDATE events
+	SET name = ?, description = ?, location = ?, dateTime = ?
+	WHERE id = ?
+	`
+
+	stmt, err := db.DB.Prepare(query)
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+	
+	_, err = stmt.Exec(event.Name, event.Description, event.Location, event.DateTime, event.ID)
+	return err
+}
+
+func (event Event) Delete() error {
+	query := `DELETE FROM events WHERE id = ?`
+	stmt, err := db.DB.Prepare(query)
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(event.ID)
+	return err
 }
