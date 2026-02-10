@@ -14,7 +14,7 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	fmt.Println("Servidor rodando na porta 5000")
 
-	http.HandleFunc("/hello", helloHandler)
+	http.DefaultServeMux.HandleFunc("/hello", helloHandler)
 
 	http.ListenAndServe(":5000", nil)
 }
