@@ -7,14 +7,14 @@ import (
 
 type MyHandler struct{}
 
-func (MyHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func helloHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("hello world"))
 }
 
 func main() {
 	fmt.Println("Servidor rodando na porta 5000")
 
-	handler := MyHandler{}
+	http.DefaultServeMux.HandleFunc("/hello", helloHandler)
 
-	http.ListenAndServe(":5000", handler)
+	http.ListenAndServe(":5000", nil)
 }
