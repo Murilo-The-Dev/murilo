@@ -1,0 +1,64 @@
+<ion-header>
+  <!-- Cor secondary (roxo/cinza) pra diferenciar do login -->
+  <ion-toolbar color="secondary">
+    <ion-title>Menu Principal</ion-title>
+    <!-- Botão de sair/logout no canto direito -->
+    <ion-buttons slot="end">
+      <ion-button (click)="sair()">
+        <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Saudação pro usuário -->
+  <div class="menu-header">
+    <ion-icon name="apps-outline" color="secondary"></ion-icon>
+    <h2>O que deseja fazer?</h2>
+  </div>
+
+  <!-- Card de Cadastro -->
+  <ion-card button (click)="irParaCadastro()" class="menu-card">
+    <ion-card-content>
+      <div class="menu-card-inner">
+        <ion-icon name="people-outline" color="primary" size="large"></ion-icon>
+        <div>
+          <h2>Cadastro</h2>
+          <p>Cadastrar clientes e fornecedores</p>
+        </div>
+        <ion-icon name="chevron-forward-outline" color="medium"></ion-icon>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Card de Contas a Receber -->
+  <ion-card button (click)="irParaReceber()" class="menu-card">
+    <ion-card-content>
+      <div class="menu-card-inner">
+        <ion-icon name="trending-up-outline" color="success" size="large"></ion-icon>
+        <div>
+          <h2>Contas a Receber</h2>
+          <p>Controlar valores a receber</p>
+        </div>
+        <ion-icon name="chevron-forward-outline" color="medium"></ion-icon>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Card de Contas a Pagar -->
+  <ion-card button (click)="irParaPagar()" class="menu-card">
+    <ion-card-content>
+      <div class="menu-card-inner">
+        <ion-icon name="trending-down-outline" color="warning" size="large"></ion-icon>
+        <div>
+          <h2>Contas a Pagar</h2>
+          <p>Controlar valores a pagar</p>
+        </div>
+        <ion-icon name="chevron-forward-outline" color="medium"></ion-icon>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
