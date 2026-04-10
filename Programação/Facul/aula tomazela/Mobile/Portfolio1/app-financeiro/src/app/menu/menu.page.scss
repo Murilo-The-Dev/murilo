@@ -1,0 +1,47 @@
+// Estilo da tela de menu
+
+// Cabeçalho com ícone centralizado
+.menu-header {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  ion-icon {
+    font-size: 50px;
+  }
+
+  h2 {
+    margin-top: 8px;
+    font-weight: bold;
+    font-size: 18px;
+  }
+}
+
+// Cards do menu com layout em linha
+.menu-card {
+  border-radius: 12px;
+  margin-bottom: 8px;
+
+  .menu-card-inner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    // O texto ocupa o espaço do meio
+    div {
+      flex: 1;
+
+      h2 {
+        margin: 0;
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      p {
+        margin: 4px 0 0;
+        font-size: 13px;
+        color: var(--ion-color-medium);
+      }
+    }
+  }
+}

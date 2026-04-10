@@ -1,0 +1,91 @@
+<ion-header>
+  <!-- Cor primary pra essa tela -->
+  <ion-toolbar color="primary">
+    <!-- Botão de voltar pro menu -->
+    <ion-buttons slot="start">
+      <ion-button (click)="voltarMenu()">
+        <ion-icon name="arrow-back"></ion-icon>
+        Voltar
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Cadastro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Card com o formulário -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Novo Cadastro</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+
+      <!-- Campo Nome -->
+      <ion-item>
+        <ion-icon name="person-outline" slot="start" color="primary"></ion-icon>
+        <ion-label position="floating">Nome</ion-label>
+        <ion-input [(ngModel)]="nome" type="text" placeholder="Nome completo"></ion-input>
+      </ion-item>
+
+      <!-- Campo Tipo: F para Física, C para Jurídica -->
+      <ion-item>
+        <ion-icon name="document-text-outline" slot="start" color="primary"></ion-icon>
+        <ion-label position="floating">Tipo (F = Física / C = Jurídica)</ion-label>
+        <ion-input [(ngModel)]="tipo" type="text" placeholder="Digite F ou C"></ion-input>
+      </ion-item>
+
+      <!-- Campo Endereço -->
+      <ion-item>
+        <ion-icon name="location-outline" slot="start" color="primary"></ion-icon>
+        <ion-label position="floating">Endereço</ion-label>
+        <ion-input [(ngModel)]="endereco" type="text" placeholder="Rua, número, bairro..."></ion-input>
+      </ion-item>
+
+      <!-- Botão pra cadastrar -->
+      <ion-button expand="block" color="primary" (click)="cadastrar()" style="margin-top: 20px;">
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+        Cadastrar
+      </ion-button>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Contador de cadastros -->
+  <ion-item lines="none" *ngIf="listaCadastros.length > 0" style="margin-top: 10px;">
+    <ion-icon name="people-outline" slot="start" color="primary"></ion-icon>
+    <ion-label><strong>{{ listaCadastros.length }}</strong> cadastro(s)</ion-label>
+  </ion-item>
+
+  <!-- Mensagem quando a lista está vazia -->
+  <div class="empty-state" *ngIf="listaCadastros.length === 0">
+    <ion-icon name="people-outline" color="medium"></ion-icon>
+    <p>Nenhum cadastro ainda. Adicione o primeiro!</p>
+  </div>
+
+  <!-- Lista de cadastros feitos -->
+  <ion-list style="margin-top: 10px;">
+    <!-- *ngFor percorre cada item do array e exibe na tela -->
+    <ion-item-sliding *ngFor="let item of listaCadastros; let i = index">
+      <ion-item>
+        <ion-avatar slot="start" class="avatar-icon">
+          <ion-icon name="person-circle-outline" color="primary"></ion-icon>
+        </ion-avatar>
+        <ion-label>
+          <!-- Mostra os dados de cada cadastro -->
+          <h2><strong>{{ item.nome }}</strong></h2>
+          <p>Tipo: {{ item.tipo === 'F' || item.tipo === 'f' ? 'Pessoa Física' : 'Pessoa Jurídica' }}</p>
+          <p>{{ item.endereco }}</p>
+        </ion-label>
+      </ion-item>
+      <!-- Opção de excluir deslizando -->
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="excluir(i)">
+          <ion-icon name="trash-outline" slot="start"></ion-icon>
+          Excluir
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+</ion-content>
