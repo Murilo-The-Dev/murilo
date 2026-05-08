@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Controle de Tarefas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="novaTarefa()">
+        <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+        Nova
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Resumo</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Total: <strong>{{ tarefas.length }}</strong></p>
+      <p>Concluídas: <strong>{{ totalConcluidas }}</strong></p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-segment [(ngModel)]="filtro">
+    <ion-segment-button value="todas">Todas</ion-segment-button>
+    <ion-segment-button value="pendentes">Pendentes</ion-segment-button>
+    <ion-segment-button value="concluidas">Concluídas</ion-segment-button>
+  </ion-segment>
+
+  <ion-list *ngIf="tarefasFiltradas.length > 0; else semDados">
+    <ion-item-sliding *ngFor="let tarefa of tarefasFiltradas">
+      <ion-item>
+        <ion-checkbox
+          slot="start"
+          [checked]="tarefa.concluida"
+          (ionChange)="alterarConclusao(tarefa.id, $event)"
+        ></ion-checkbox>
+
+        <ion-label>
+          <h2 [class.concluida]="tarefa.concluida">{{ tarefa.titulo }}</h2>
+          <p>{{ tarefa.descricao }}</p>
+          <ion-chip [color]="corPrioridade(tarefa.prioridade)">
+            <ion-label>Prioridade {{ tarefa.prioridade }}</ion-label>
+          </ion-chip>
+        </ion-label>
+
+        <ion-button fill="clear" color="medium" (click)="editarTarefa(tarefa.id)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="excluirTarefa(tarefa.id)">
+          Excluir
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ng-template #semDados>
+    <ion-card>
+      <ion-card-content class="vazio">
+        Nenhuma tarefa para exibir.
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
+</ion-content>

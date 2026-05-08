@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="voltar()">
+        <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+        Voltar
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ modoEdicao ? 'Editar tarefa' : 'Nova tarefa' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Dados da tarefa</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Título</ion-label>
+        <ion-input
+          [(ngModel)]="titulo"
+          type="text"
+          maxlength="60"
+          placeholder="Ex.: Entregar atividade"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Descrição</ion-label>
+        <ion-textarea
+          [(ngModel)]="descricao"
+          autoGrow="true"
+          maxlength="180"
+          placeholder="Detalhe rapidamente o que precisa ser feito"
+        ></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Prioridade</ion-label>
+        <ion-select [(ngModel)]="prioridade" interface="action-sheet">
+          <ion-select-option value="baixa">Baixa</ion-select-option>
+          <ion-select-option value="media">Média</ion-select-option>
+          <ion-select-option value="alta">Alta</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-button expand="block" color="primary" (click)="salvar()" class="top-space">
+        <ion-icon slot="start" [name]="modoEdicao ? 'save-outline' : 'add-circle-outline'"></ion-icon>
+        {{ modoEdicao ? 'Salvar alterações' : 'Cadastrar tarefa' }}
+      </ion-button>
+      <ion-button
+        *ngIf="!modoEdicao"
+        expand="block"
+        fill="outline"
+        color="medium"
+        (click)="limparFormulario()"
+      >
+        Limpar
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

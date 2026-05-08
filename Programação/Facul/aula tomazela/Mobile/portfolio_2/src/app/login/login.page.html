@@ -1,0 +1,45 @@
+<ion-header>
+  <!-- Barra de topo com cor primária (azul padrão do Ionic) -->
+  <ion-toolbar color="primary">
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Ícone grande de dinheiro pra dar uma cara pro app -->
+  <div class="login-logo">
+    <ion-icon name="wallet-outline" color="primary"></ion-icon>
+    <h2>App Financeiro</h2>
+    <p>Gerencie suas finanças de forma simples</p>
+  </div>
+
+  <!-- Card que envolve o formulário pra ficar mais bonito -->
+  <ion-card>
+    <ion-card-content>
+
+      <!-- Campo de nome -->
+      <ion-item>
+        <ion-icon name="person-outline" slot="start" color="primary"></ion-icon>
+        <ion-label position="floating">Nome</ion-label>
+        <!-- ngModel faz a ligação entre o input e a variável no .ts -->
+        <ion-input [(ngModel)]="nome" type="text" placeholder="Digite seu nome"></ion-input>
+      </ion-item>
+
+      <!-- Campo de senha -->
+      <ion-item>
+        <ion-icon name="lock-closed-outline" slot="start" color="primary"></ion-icon>
+        <ion-label position="floating">Senha</ion-label>
+        <ion-input [(ngModel)]="senha" type="password" placeholder="Digite sua senha"></ion-input>
+      </ion-item>
+
+      <!-- Botão que chama a função avancar() -->
+      <ion-button expand="block" (click)="avancar()" style="margin-top: 20px;">
+        <ion-icon name="log-in-outline" slot="start"></ion-icon>
+        Avançar
+      </ion-button>
+
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
