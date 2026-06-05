@@ -1,0 +1,45 @@
+<ion-page>
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/dashboard"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Contas a Receber</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-segment [value]="status" (ionChange)="onSegmentChange($event)">
+      <ion-segment-button value="open">
+        <ion-label>Abertos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="overdue">
+        <ion-label>Vencidos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="paid">
+        <ion-label>Pagos</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-list>
+      <ion-item *ngFor="let receivable of receivables">
+        <ion-label>
+          <h2>{{ receivable.client_name }}</h2>
+          <p>{{ money(receivable.amount) }} - Vencimento: {{ receivable.due_date | date:'shortDate' }}</p>
+        </ion-label>
+
+        <ion-badge slot="end" [color]="statusColor(receivable.status)">{{ receivable.status }}</ion-badge>
+
+        <ion-button
+          slot="end"
+          fill="outline"
+          color="success"
+          *ngIf="receivable.status === 'open' || receivable.status === 'overdue'"
+          (click)="confirmPay(receivable)"
+        >
+          Receber
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-page>

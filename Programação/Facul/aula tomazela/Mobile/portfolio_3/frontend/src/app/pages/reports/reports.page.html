@@ -1,0 +1,108 @@
+<ion-page>
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/dashboard"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Relatorios</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-segment [value]="segment" (ionChange)="onSegmentChange($event)">
+      <ion-segment-button value="sales">
+        <ion-label>Vendas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="receivables">
+        <ion-label>A Receber</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="top">
+        <ion-label>Top Produtos</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <ng-container [ngSwitch]="segment">
+      <div *ngSwitchCase="'sales'">
+        <ion-item>
+          <ion-label>Data Inicial</ion-label>
+          <ion-datetime presentation="date" [(ngModel)]="salesStart"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Data Final</ion-label>
+          <ion-datetime presentation="date" [(ngModel)]="salesEnd"></ion-datetime>
+        </ion-item>
+
+        <div class="actions">
+          <ion-button expand="block" (click)="searchSales()">Buscar</ion-button>
+        </div>
+
+        <ion-list>
+          <ion-item *ngFor="let row of salesRows">
+            <ion-label>
+              <h3>{{ row.date | date:'shortDate' }}</h3>
+              <p>Vendas: {{ row.count }} | Total: {{ money(row.total) }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Total geral</ion-card-subtitle>
+            <ion-card-title>{{ money(grandTotal) }}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </div>
+
+      <div *ngSwitchCase="'receivables'">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12">
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-subtitle>Open</ion-card-subtitle>
+                  <ion-card-title>
+                    {{ receivablesData.open.count }} - {{ money(receivablesData.open.total) }}
+                  </ion-card-title>
+                </ion-card-header>
+              </ion-card>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-subtitle>Paid</ion-card-subtitle>
+                  <ion-card-title>
+                    {{ receivablesData.paid.count }} - {{ money(receivablesData.paid.total) }}
+                  </ion-card-title>
+                </ion-card-header>
+              </ion-card>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-subtitle>Overdue</ion-card-subtitle>
+                  <ion-card-title>
+                    {{ receivablesData.overdue.count }} - {{ money(receivablesData.overdue.total) }}
+                  </ion-card-title>
+                </ion-card-header>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      <div *ngSwitchCase="'top'">
+        <ion-list>
+          <ion-item *ngFor="let product of topProducts; let i = index">
+            <ion-label>
+              <h3>#{{ i + 1 }} - {{ product.product_name }}</h3>
+              <p>Qtd: {{ product.quantity_sold }} | Receita: {{ money(product.revenue) }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ng-container>
+  </ion-content>
+</ion-page>

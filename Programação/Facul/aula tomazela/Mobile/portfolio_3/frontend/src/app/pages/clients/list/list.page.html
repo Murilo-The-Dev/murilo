@@ -1,0 +1,39 @@
+<ion-page>
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/dashboard"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Clientes</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-searchbar placeholder="Buscar por nome" (ionInput)="onSearch($event)"></ion-searchbar>
+
+    <ion-list>
+      <ion-item-sliding *ngFor="let client of filteredClients">
+        <ion-item>
+          <ion-label>
+            <h2>{{ client.name }}</h2>
+            <p>{{ client.cpf || 'Sem CPF' }}</p>
+          </ion-label>
+          <ion-badge slot="end" [color]="badgeColor(client.active)">
+            {{ client.active ? 'Ativo' : 'Inativo' }}
+          </ion-badge>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option color="primary" (click)="openForm(client)">Editar</ion-item-option>
+          <ion-item-option color="warning" (click)="confirmToggle(client)">Toggle</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="openForm()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ion-content>
+</ion-page>

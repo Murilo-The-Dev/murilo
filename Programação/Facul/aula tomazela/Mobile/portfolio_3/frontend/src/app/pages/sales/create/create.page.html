@@ -1,0 +1,79 @@
+<ion-page>
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/sales"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Nova Venda</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-item>
+      <ion-select label="Cliente" labelPlacement="floating" [(ngModel)]="clientId">
+        <ion-select-option *ngFor="let client of clients" [value]="client.id">
+          {{ client.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Itens</ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-select label="Produto" labelPlacement="floating" [(ngModel)]="selectedProductId">
+          <ion-select-option *ngFor="let product of products" [value]="product.id">
+            {{ product.name }} ({{ money(product.price) }})
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          type="number"
+          label="Quantidade"
+          labelPlacement="floating"
+          [(ngModel)]="quantity"
+          min="1"
+        ></ion-input>
+      </ion-item>
+
+      <div class="actions">
+        <ion-button expand="block" fill="outline" (click)="addItem()">Adicionar Item</ion-button>
+      </div>
+
+      <ion-item *ngFor="let item of items; let i = index">
+        <ion-label>
+          {{ item.product_name }} x{{ item.quantity }}
+        </ion-label>
+        <ion-chip slot="end" color="primary">{{ money(item.price * item.quantity) }}</ion-chip>
+        <ion-button slot="end" fill="clear" color="danger" (click)="removeItem(i)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Total da venda</ion-card-subtitle>
+        <ion-card-title>{{ money(total) }}</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+
+    <div class="actions">
+      <ion-button expand="block" [disabled]="!clientId || items.length === 0" (click)="confirmSale()">
+        Confirmar Venda
+      </ion-button>
+    </div>
+
+    <ion-toast
+      [isOpen]="toastOpen"
+      [message]="toastMessage"
+      color="danger"
+      duration="2500"
+      (didDismiss)="toastOpen = false"
+    ></ion-toast>
+  </ion-content>
+</ion-page>

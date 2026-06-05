@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ client ? 'Editar Cliente' : 'Novo Cliente' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Fechar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-input label="Nome" labelPlacement="floating" [formControl]="form.controls.name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="E-mail" labelPlacement="floating" [formControl]="form.controls.email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Telefone" labelPlacement="floating" [formControl]="form.controls.phone"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="CPF" labelPlacement="floating" [formControl]="form.controls.cpf"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-textarea
+        label="Endereco"
+        labelPlacement="floating"
+        [formControl]="form.controls.address"
+      ></ion-textarea>
+    </ion-item>
+  </ion-list>
+
+  <div class="actions">
+    <ion-button expand="block" (click)="save()">Salvar</ion-button>
+  </div>
+</ion-content>

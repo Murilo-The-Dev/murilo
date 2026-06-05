@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ user ? 'Editar Usuario' : 'Novo Usuario' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Fechar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-input label="Nome" labelPlacement="floating" [formControl]="form.controls.name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="E-mail" labelPlacement="floating" [formControl]="form.controls.email"></ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="!user">
+      <ion-input
+        type="password"
+        label="Senha"
+        labelPlacement="floating"
+        [formControl]="form.controls.password"
+      ></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <div class="actions">
+    <ion-button expand="block" (click)="save()">Salvar</ion-button>
+  </div>
+</ion-content>

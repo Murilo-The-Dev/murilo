@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ product ? 'Editar Produto' : 'Novo Produto' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Fechar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-input label="Nome" labelPlacement="floating" [formControl]="form.controls.name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-textarea
+        label="Descricao"
+        labelPlacement="floating"
+        [formControl]="form.controls.description"
+      ></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        type="number"
+        label="Preco"
+        labelPlacement="floating"
+        [formControl]="form.controls.price"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        type="number"
+        label="Estoque"
+        labelPlacement="floating"
+        [formControl]="form.controls.stock"
+      ></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <div class="actions">
+    <ion-button expand="block" (click)="save()">Salvar</ion-button>
+  </div>
+</ion-content>

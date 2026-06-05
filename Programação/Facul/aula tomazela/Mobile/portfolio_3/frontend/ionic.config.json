@@ -1,0 +1,7 @@
+{
+  "name": "GestaoApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,42 @@
+<ion-page>
+  <ion-content [fullscreen]="true" class="login-content">
+    <div class="login-wrapper">
+      <ion-icon name="person-circle" class="logo-icon"></ion-icon>
+      <h1>Sistema Gestao</h1>
+
+      <form [formGroup]="form" (ngSubmit)="onLogin()">
+        <ion-list [inset]="true">
+          <ion-item>
+            <ion-input
+              label="E-mail"
+              labelPlacement="floating"
+              type="email"
+              formControlName="email"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-input
+              label="Senha"
+              labelPlacement="floating"
+              type="password"
+              formControlName="password"
+            ></ion-input>
+          </ion-item>
+        </ion-list>
+
+        <ion-button type="submit" expand="block" [disabled]="isSubmitting">
+          Entrar
+        </ion-button>
+      </form>
+    </div>
+
+    <ion-toast
+      [isOpen]="toastOpen"
+      [message]="toastMessage"
+      color="danger"
+      duration="2500"
+      (didDismiss)="toastOpen = false"
+    ></ion-toast>
+  </ion-content>
+</ion-page>
